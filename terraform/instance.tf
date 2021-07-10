@@ -8,17 +8,9 @@ resource "aws_instance" "Rabbit" {
   tags = {
     Name = "Rabbit"
   }
-
-  triggers = {
-    build_number = "${timestamp()}"
-    }
-    
-  provisioner "local-exec" {
-    command = "sleep 25; ansible-galaxy install -p ${path.root}/../ansible/roles -r ${path.root}/../ansible/requirements.yml --force && cd ../ansible && ansible-playbook rabbit.yml -i aws_ec2.yaml"
-  }
 }
 
-/*resource "null_resource" "ansible_automation" {
+resource "null_resource" "ansible_automation" {
   triggers = {
     build_number = "${timestamp()}"
     }
@@ -30,4 +22,4 @@ resource "aws_instance" "Rabbit" {
     aws_instance.Rabbit
   ]
 
-}*/
+}
