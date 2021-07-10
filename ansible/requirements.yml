@@ -1,2 +1,3 @@
 - src: 'https://github.com/EPAM-team-8/ansible-role-rabbitmq.git'
   name: 'rabbit'
+  version: develop

@@ -1,0 +1,3 @@
+makefile
+.terraform.lock.hcl
+terraform/.terraform/**
