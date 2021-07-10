@@ -8,12 +8,10 @@ resource "aws_instance" "Rabbit" {
   tags = {
     Name = "Rabbit"
   }
+
   provisioner "local-exec" {
     command = "sleep 25; ansible-galaxy install -p ${path.root}/../ansible/roles -r ${path.root}/../ansible/requirements.yml --force && cd ../ansible && ansible-playbook rabbit.yml -i aws_ec2.yaml"
   }
-  depends_on = [
-    aws_instance.Rabbit
-  ]
 }
 
 /*resource "null_resource" "ansible_automation" {
