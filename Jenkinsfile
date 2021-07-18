@@ -33,6 +33,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'epamkey',keyFileVariable: 'SSH_KEY')]) {
                 //sh 'cp "$SSH_KEY" ./awskey.pem'
+                sh 'export TF_VAR_key=${SSH_KEY}'
                 dir('terraform'){
                 sh """
                     export TF_VAR_key=${SSH_KEY}
