@@ -1,0 +1,89 @@
+---
+
+- name: Launchpad PPA that provides modern Erlang releases
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: F77F1EDA57EBB1CC
+
+- name: Curl for RabbitMQ
+  shell: curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | sudo apt-key add -
+  args:
+    warn: no
+
+- name: Install nessesary package
+  apt: 
+      name: apt-transport-https
+      state: present
+      update_cache: yes
+
+- name: Install basic packages
+  apt:
+    name:
+    - debian-keyring
+    - gnupg
+    - debian-archive-keyring
+    state: latest
+    update_cache: yes
+
+- name:  See the release to distribution mapping table in RabbitMQ
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
+    state: present
+
+- name: See the release to distribution mapping table in RabbitMQ (deb-src)
+  apt_repository:
+    repo: deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
+    state: present
+
+- name:  Provides RabbitMQ
+  apt_repository:
+    repo: deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+    state: present
+
+- name: Provides RabbitMQ (deb-src)
+  apt_repository:
+    repo: deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+    state: present
+
+- name: Run apt-get update
+  apt:
+    update_cache: yes
+
+- name: Install erlang packages
+  apt:
+    name: '{{ item }}'
+    state: present
+    cache_valid_time: 3600
+  loop: '{{ erlang_package_list }}'
+
+
+- name: Install RabbitMQ Server
+  apt:
+    name:
+    - rabbitmq-server
+    state: latest
+    update_cache: yes
+
+- name: Start & enable RabbitMQ Server
+  systemd:
+    name: rabbitmq-server
+    state: started
+    enabled: true
+
+
+- name: Enable rabbitmq plugins
+  rabbitmq_plugin:
+    names: rabbitmq_management
+    state: enabled
+
+- name: Add rabbitmq users admin
+  no_log: true
+  rabbitmq_user:
+    user: admin
+    password: superpassword
+    vhost: /
+    tags: administrator
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present

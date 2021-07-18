@@ -1,0 +1,25 @@
+---
+
+- name:  See the release to distribution mapping table in RabbitMQ
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
+    state: present
+
+- name: See the release to distribution mapping table in RabbitMQ (deb-src)
+  apt_repository:
+    repo: deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
+    state: present
+
+- name:  Provides RabbitMQ
+  apt_repository:
+    repo: deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+    state: present
+
+- name: Provides RabbitMQ (deb-src)
+  apt_repository:
+    repo: deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+    state: present
+
+- name: Run apt-get update
+  apt:
+    update_cache: yes

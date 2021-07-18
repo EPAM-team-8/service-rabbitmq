@@ -1,0 +1,11 @@
+---
+
+- name: Launchpad PPA that provides modern Erlang releases
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: F77F1EDA57EBB1CC
+
+- name: Curl for RabbitMQ
+  shell: curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | sudo apt-key add -
+  args:
+    warn: no

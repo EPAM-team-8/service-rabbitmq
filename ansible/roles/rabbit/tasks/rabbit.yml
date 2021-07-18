@@ -1,0 +1,32 @@
+---
+
+- name: Install RabbitMQ Server
+  apt:
+    name:
+    - rabbitmq-server
+    state: latest
+    update_cache: yes
+
+- name: Start & enable RabbitMQ Server
+  systemd:
+    name: rabbitmq-server
+    state: started
+    enabled: true
+
+
+- name: Enable rabbitmq plugins
+  rabbitmq_plugin:
+    names: rabbitmq_management
+    state: enabled
+
+- name: Add rabbitmq users admin
+  no_log: true
+  rabbitmq_user:
+    user: admin
+    password: superpassword
+    vhost: /
+    tags: administrator
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present

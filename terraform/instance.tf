@@ -3,7 +3,7 @@ resource "aws_instance" "Rabbit" {
   instance_type = "t2.micro"
   vpc_security_group_ids = [data.aws_security_group.sg.id]
   key_name      = "epamclass"
-  subnet_id = data.aws_subnet.publicSubnet.id
+  subnet_id = data.aws_subnet.public_subnet.id
 
   tags = {
     Name = "Rabbit"

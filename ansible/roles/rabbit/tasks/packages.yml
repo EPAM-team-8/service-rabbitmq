@@ -1,0 +1,16 @@
+---
+
+- name: Install nessesary package
+  apt: 
+      name: apt-transport-https
+      state: present
+      update_cache: yes
+
+- name: Install basic packages
+  apt:
+    name:
+    - debian-keyring
+    - gnupg
+    - debian-archive-keyring
+    state: latest
+    update_cache: yes

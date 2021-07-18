@@ -1,0 +1,8 @@
+---
+
+- name: Install erlang packages
+  apt:
+    name: '{{ item }}'
+    state: present
+    cache_valid_time: 3600
+  loop: '{{ erlang_package_list }}'
